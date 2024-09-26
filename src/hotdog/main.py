@@ -1,10 +1,13 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, File, UploadFile
 from typing import Union
 from fastapi.templating import Jinja2Templates
 from fastapi import Request
 from PIL import Image
-
+from transformers import pipeline
+from hotdog.utils import get_max_label
+import io
 import random
+
 
 app = FastAPI()
 
@@ -38,7 +41,10 @@ async def create_upload_file(file: UploadFile):
     model = pipeline("image-classification", model="julien-c/hotdog-not-hotdog")
     # 이미지 바이트를 PIL 이미지로 변환
     img = Image.open(io.BytessIO(u=img))
+    
     p = model(img)
+    label = get_max_label(p)
+
     # TODO
     # 의존성 모듈 설치해서 오류 없이 서버 가동
     # if predictions 값이 배열과 같이 나오면 높은 확률의 값을 추출해서 리턴하기
