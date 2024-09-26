@@ -2,6 +2,7 @@ from fastapi import FastAPI
 from typing import Union
 from fastapi.templating import Jinja2Templates
 from fastapi import Request
+from PIL import Image
 
 import random
 
@@ -29,3 +30,17 @@ async def home(request: Request):
 def hotdog():
 
     return {"YOU ARE": random.choice(["HOTDOG!", "NOT HOTDOG"])}
+
+@app.post("/upload your ID")
+async def create_upload_file(file: UploadFile):
+    # 파일 저장
+    img =  await file.read()
+    model = pipeline("image-classification", model="julien-c/hotdog-not-hotdog")
+    # 이미지 바이트를 PIL 이미지로 변환
+    img = Image.open(io.BytessIO(u=img))
+    p = model(img)
+    # TODO
+    # 의존성 모듈 설치해서 오류 없이 서버 가동
+    # if predictions 값이 배열과 같이 나오면 높은 확률의 값을 추출해서 리턴하기
+
+    return {"Hi": p}
