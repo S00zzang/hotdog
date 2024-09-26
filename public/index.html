@@ -8,7 +8,7 @@
         async function uploadImage(event) {
             event.preventDefault(); // 폼 제출 방지
             const formData = new FormData(event.target);
-            const response = await fetch('/uploadfile/', {
+            const response = await fetch('/uploadyourID/', {
                 method: 'POST',
                 body: formData
             });
@@ -24,20 +24,20 @@
             if (label === 'hot dog') {
                 resultImage.src = "https://github.com/user-attachments/assets/101129fd-b180-4532-88fa-a716139b1638"; // Hotdog 이미지
             } else {
-                resultImage.src = "https://github.com/user-attachments/assets/a12bac57-61b3-47a8-b8fe-0751461e5839"; // Not hotdog 이미지
+                resultImage.src = "https://github.com/user-attachments/assets/6fe35248-d638-4bf0-8194-74de04c7d496"; // Not hotdog 이미지
             }
         }
     </script>
 </head>
 <body>
-    <h1>IF HOTDOG</h1>
+    <h1>GIVE ME YOUR ID</h1>
 
     <form id="uploadForm" onsubmit="uploadImage(event)">
         <input type="file" name="file" accept="image/*" required>
         <button type="submit">Upload</button>
     </form>
 
-    <h2>Here is your image:</h2>
+    <h2>LET ME SEE.....</h2>
     {% if image_url %}
     <img id="resultImage" src="{{ image_url }}" width="300">
     {% endif %}
