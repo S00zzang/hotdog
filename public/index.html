@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HOTDOG Classification</title>
+    <script>
+        async function uploadImage(event) {
+            event.preventDefault(); // 폼 제출 방지
+            const formData = new FormData(event.target);
+            const response = await fetch('/uploadyourID/', {
+                method: 'POST',
+                body: formData
+            });
+
+            const result = await response.json();
+            const label = result.label;
+            
+            console.log('result:', JSON.stringify(result, null, 2));
+            console.log('label:' + label)
+
+            // 결과에 따라 이미지 변경
+            const resultImage = document.getElementById('resultImage');
+            if (label === 'hot dog') {
+                resultImage.src = "https://github.com/user-attachments/assets/101129fd-b180-4532-88fa-a716139b1638"; // Hotdog 이미지
+            } else {
+                resultImage.src = "https://github.com/user-attachments/assets/6fe35248-d638-4bf0-8194-74de04c7d496"; // Not hotdog 이미지
+            }
+        }
+    </script>
+</head>
+<body>
+    <h1>GIVE ME YOUR ID</h1>
+
+    <form id="uploadForm" onsubmit="uploadImage(event)">
+        <input type="file" name="file" accept="image/*" required>
+        <button type="submit">Upload</button>
+    </form>
+
+    <h2>LET ME SEE.....</h2>
+    {% if image_url %}
+    <img id="resultImage" src="{{ image_url }}" width="300">
+    {% endif %}
+    
+</body>
+</html>
